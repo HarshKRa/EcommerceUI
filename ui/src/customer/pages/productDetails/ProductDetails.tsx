@@ -13,6 +13,7 @@ import {
   WorkspacePremium,
 } from "@mui/icons-material";
 import SimilarProduct from "./SimilarProduct";
+import ReviewCard from "../Review/ReviewCard";
 
 const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
@@ -56,10 +57,11 @@ const ProductDetails = () => {
               <span className="line-through tex-gray-400">₹ 999</span>
               <span className="text-primary-color font-semibold">60%</span>
             </div>
-          </div>
-          <p className="text-sm">
+            <p className="text-sm">
             Inclusive of all taxes. Free shipping above ₹1500
           </p>
+          </div>
+          
 
           <div className="mt-7 space-y-3">
             <div className="flex items-center gap-4">
@@ -117,6 +119,11 @@ const ProductDetails = () => {
 
           <div className="mt-5">
             <p>The saree comes with an unstitched blouse piece The blouse worn by th model might be for modelling purpose only. Check the image of the blouse piece to understand how the actual blouse piece looks like.</p>
+          </div>
+
+          <div className="mt-12 space-y-5">
+            <ReviewCard />
+            <Divider />
           </div>
         </section>
       </div>

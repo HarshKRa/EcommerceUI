@@ -6,18 +6,36 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Navbar from "./customer/components/NavBar/Navbar";
 import customTheme from "./theme/customTheme";
 import Home from "./customer/pages/home/Home";
-import Product from "./customer/pages/product/Product";
+import Product from "./customer/pages/Product/Product";
 import ProductDetails from "./customer/pages/productDetails/ProductDetails";
+import Review from "./customer/pages/Review/Review";
+import Cart from "./customer/pages/Cart/Cart";
+import CheckOut from "./customer/pages/checkOut/CheckOut";
+import Account from "./customer/pages/Account/Account";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <ThemeProvider theme={customTheme}>
       <div>
-        <Navbar />
         {/* <Home /> */}
         {/* <Product /> */}
+        {/* <ProductDetails /> */}
+        {/* <Review /> */}
+        {/* <Cart /> */}
+        {/* <CheckOut /> */}
+        {/* <Account /> */}
 
-        <ProductDetails />
+        <Navbar />
+        <Routes>
+           <Route path="/" element={<Home />}/>
+           <Route path="/products/:category" element={<Product />}/>
+           <Route path="/reviews/:productId" element={<Review />}/>
+           <Route path="/product-deails/:caategoryId/:name/:productId" element={<ProductDetails />}/>
+           <Route path="/cart" element={<Cart />}/>
+           <Route path="/checkout" element={<CheckOut />}/>
+           <Route path="/account/*" element={<Account />}/>
+        </Routes>
       </div>
     </ThemeProvider>
   );

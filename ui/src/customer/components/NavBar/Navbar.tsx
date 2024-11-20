@@ -18,12 +18,15 @@ import {
 import { light } from "@mui/material/styles/createPalette";
 import CategorySheet from "./CategorySheet";
 import { mainCategories } from "../../../Data/category/mainCategory";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
   const[slectedCategory,setSelcetdCategory] = useState("Men");
   const[showCategorySheet,setShowCategorySheet] = useState(false);
+
+  const navigate = useNavigate();
 
   console.log(slectedCategory);
   return (
@@ -37,7 +40,9 @@ const Navbar = () => {
                 <MenuIcon />
               </IconButton>}
 
-              <h1 className="logo cursor-pointer text-lg md:text-2xl text-primary-color">
+              <h1 
+              onClick={()=>navigate("/")}
+              className="logo cursor-pointer text-lg md:text-2xl text-primary-color">
                 Harsh Bazzar
               </h1>
             </div>
@@ -68,10 +73,11 @@ const Navbar = () => {
             </IconButton>
 
             {true ? (
-              <Button className="flex items-center gap-2">
+              <Button
+              onClick={()=>navigate("/account/orders")} className="flex items-center gap-2">
                 <Avatar
                   sx={{ width: 29, height: 29 }}
-                  src="https://cdn.pixabay.com/photo/2015/04/15/09/ 28/head-723540_640.jpg"
+                  src="https://t4.ftcdn.net/jpg/08/08/37/31/360_F_808373133_lrCrFLLTXF0A2WQK7QKMCNAzKCjX7kvb.jpg"
                 />
                 <h1 className="font-semibold hidden lg:block">Harsh</h1>
               </Button>
@@ -83,7 +89,8 @@ const Navbar = () => {
               <FavoriteBorder sx={{ fontSize: 29 }} />
             </IconButton>
 
-            <IconButton>
+            <IconButton
+            onClick={()=>navigate("cart")}>
               <AddShoppingCart sx={{ fontSize: 29 }} />
             </IconButton>
 
