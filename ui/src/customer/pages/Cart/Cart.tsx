@@ -14,7 +14,7 @@ const Cart = () => {
 
   const navigate = useNavigate();
   return (
-    <div className="pt-10 px-5 sm:px-10 md:px-60 min-h-screen">
+    <div className="pt-10 px-5 sm:px-10 md:px-60 min-h-screen relative -z-10">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <div className="cartItemSection lg:col-span-2 space-y-3">
           {[1, 1, 1, 1, 1, 1].map((item) => (

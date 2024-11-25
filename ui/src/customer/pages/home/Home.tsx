@@ -5,8 +5,10 @@ import Deal from "./Deal/Deal";
 import ShopByCategory from "./ShopByCategory/ShopByCategory";
 import { Button } from "@mui/material";
 import { Storefront } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="space-y-5 lg:space-y-10 realtive pb-20">
@@ -34,7 +36,8 @@ const Home = () => {
               <p className="text-lg md:text-2xl">With <span className="logo">Harsh Baggar</span> </p>
 
               <div className="pt-6 flex justify-center">
-                <Button startIcon={<Storefront />} variant="contained" size="large">
+                <Button
+                onClick={()=>navigate("/become-seller")} startIcon={<Storefront />} variant="contained" size="large">
                   Become Seller
                 </Button>
               </div>

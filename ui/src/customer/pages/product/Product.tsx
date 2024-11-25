@@ -30,7 +30,7 @@ const Product = () => {
     setPage(value);
   };
   return (
-    <div className="-z-10 mt-10">
+    <div className="-z-10 mt-10 relative">
       <div>
         <h1
           className="text-3xl text-center font-bold text-gray-700 pb-10 px-9

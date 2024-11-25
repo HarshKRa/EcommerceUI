@@ -13,6 +13,9 @@ import Cart from "./customer/pages/Cart/Cart";
 import CheckOut from "./customer/pages/checkOut/CheckOut";
 import Account from "./customer/pages/Account/Account";
 import { Route, Routes } from "react-router-dom";
+import BecomeSeller from "./customer/pages/Become Seller/BecomeSeller";
+import SellerDashboard from "./seller/pages/SellerDashboard/SellerDashboard";
+import AdminDashboard from "./admin/Pages/Dashboard/Dashboard";
 
 function App() {
   return (
@@ -34,8 +37,12 @@ function App() {
            <Route path="/product-deails/:caategoryId/:name/:productId" element={<ProductDetails />}/>
            <Route path="/cart" element={<Cart />}/>
            <Route path="/checkout" element={<CheckOut />}/>
+           <Route path="/become-seller" element={<BecomeSeller />}/>
            <Route path="/account/*" element={<Account />}/>
+           <Route path="/seller/*" element={<SellerDashboard />}/>
+           <Route path="/admin/*" element={<AdminDashboard />}/>
         </Routes>
+
       </div>
     </ThemeProvider>
   );
