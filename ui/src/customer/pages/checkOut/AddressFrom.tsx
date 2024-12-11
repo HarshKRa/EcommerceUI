@@ -2,18 +2,22 @@ import { Box, Grid2, TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
+import { useAppDispatch } from '../../../State/Store';
+import { createOrder } from '../../../State/customer/OrderSlice';
 
 const AddressFormValidation = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     mobile: Yup.string().required("Name is required").matches(/^[6-9]\d{9}$/,"Invalid mobile number"),
-    pinCode: Yup.string().required("Pin Code is required").matches(/^[1-9]\d{6}$/,"Invalid Pin Code"),
+    pinCode: Yup.string().required("Pin Code is required").matches(/^[1-9][0-9]{5}$/, "Invalid Pin Code"),
     address: Yup.string().required("Address is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State is required"),
     locality: Yup.string().required("Locality is required")
 });
 
-const AddressFrom = () => {
+const AddressFrom = ({paymentGateway}:any) => {
+
+    const dispatch = useAppDispatch();
     const formik  = useFormik({
         initialValues:{
             name: '',
@@ -27,6 +31,10 @@ const AddressFrom = () => {
         validationSchema:AddressFormValidation,
         onSubmit :(values)=>{
             console.log(values)
+            dispatch(createOrder({address:values,
+                jwt:localStorage.getItem("jwt") || "",
+                paymentGateway,
+            }));
         }
     });
   return (
@@ -66,7 +74,7 @@ const AddressFrom = () => {
                      <TextField
                      fullWidth
                      name='pinCode'
-                     label='PinCode'
+                     label='Pin Code'
                      value={formik.values.pinCode}
                      onChange={formik.handleChange}
                      error={formik.touched.pinCode && Boolean(formik.errors.pinCode)}

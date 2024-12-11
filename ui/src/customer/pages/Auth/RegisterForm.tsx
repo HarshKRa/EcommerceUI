@@ -1,12 +1,9 @@
-import { Button, TextField } from "@mui/material";
-import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useAppDispatch } from "../../../State/Store";
-import { sendLoginSignupOtp, signing } from "../../../State/AuthSlice";
-import { sellerLogin } from "../../../State/seller/SellerAuthSlice";
+import { useFormik } from "formik";
+import { Button, TextField } from "@mui/material";
 
-const SellerLoginForm = () => {
+const RegisterForm = () => {
   const dispatch = useAppDispatch();
   const [sentOpt, setSendOtp] = useState(false);
 
@@ -14,27 +11,23 @@ const SellerLoginForm = () => {
     initialValues: {
       email: "",
       otp: "",
+      fullName:""
     },
     onSubmit: (values) => {
-      dispatch(sellerLogin(values));
+      //   dispatch(sellerLogin(values));
     },
   });
 
   const handleSentOtpFunction = () => {
-    dispatch(sendLoginSignupOtp({ email: formik.values.email }));
     setSendOtp(true);
   };
 
-  // const handleLogin = ()=>{
-  //   dispatch(signin({email}))
-  // }
-
   return (
     <div>
-      <h1 className="text-center font-bold text-xl text-primary-color pb-5">
-        Login As Seller
+      <h1 className="text-center font-bold text-xl text-primary-color pb-8">
+        Signup
       </h1>
-      <div className="space-y-5">
+      <div className="space-y-3">
         <TextField
           fullWidth
           name="email"
@@ -46,7 +39,7 @@ const SellerLoginForm = () => {
         />
 
         {sentOpt ? (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <p className="font-medium text-sm opacity-60">
               Enter OTP sent to your email
             </p>
@@ -58,6 +51,17 @@ const SellerLoginForm = () => {
               onChange={formik.handleChange}
               error={formik.touched.otp && Boolean(formik.errors.otp)}
               helperText={formik.touched.otp && formik.errors.otp}
+            />
+
+            <p className="font-medium text-sm opacity-60">Enter your Name</p>
+            <TextField
+              fullWidth
+              name="fullName"
+              label="Full Name"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+              helperText={formik.touched.fullName && formik.errors.fullName}
             />
           </div>
         ) : (
@@ -80,7 +84,7 @@ const SellerLoginForm = () => {
             variant="contained"
             sx={{ py: "11px" }}
           >
-            Login
+            Signup
           </Button>
         </div>
       </div>
@@ -88,4 +92,4 @@ const SellerLoginForm = () => {
   );
 };
 
-export default SellerLoginForm;
+export default RegisterForm;

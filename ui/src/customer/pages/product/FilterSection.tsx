@@ -126,7 +126,7 @@ const FilterSection = () => {
             >
               {price.slice(0, expandPrice ? price.length : 5).map((item) => (
                 <FormControlLabel
-                  value={item.name}
+                  value={item.value}
                   control={<Radio />}
                   label={item.name}
                 />
@@ -167,7 +167,7 @@ const FilterSection = () => {
                 .slice(0, expandDiscount ? discount.length : 5)
                 .map((item) => (
                   <FormControlLabel
-                    value={item.name}
+                    value={item.value}
                     control={<Radio />}
                     label={item.name}
                   />

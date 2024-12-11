@@ -19,6 +19,7 @@ import { light } from "@mui/material/styles/createPalette";
 import CategorySheet from "./CategorySheet";
 import { mainCategories } from "../../../Data/category/mainCategory";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useAppSelctoer } from "../../../State/Store";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -27,8 +28,7 @@ const Navbar = () => {
   const[showCategorySheet,setShowCategorySheet] = useState(false);
 
   const navigate = useNavigate();
-
-  console.log(slectedCategory);
+  const {auth} = useAppSelctoer(store=>store)
   return (
     <>
       <Box className="Sticky top-0 left-0 right-0 bg-white"
@@ -49,8 +49,9 @@ const Navbar = () => {
 
             <ul className="flex items-center font-medium text-gray-800 ">
               {mainCategories.map(
-                (item) => (
+                (item,index) => (
                   <li 
+                  key={index}
                   onMouseLeave={()=>{
                     setShowCategorySheet(false);
                   }}
@@ -72,20 +73,20 @@ const Navbar = () => {
               <SearchIcon />
             </IconButton>
 
-            {true ? (
+            {auth.user ? (
               <Button
               onClick={()=>navigate("/account/orders")} className="flex items-center gap-2">
                 <Avatar
                   sx={{ width: 29, height: 29 }}
                   src="https://t4.ftcdn.net/jpg/08/08/37/31/360_F_808373133_lrCrFLLTXF0A2WQK7QKMCNAzKCjX7kvb.jpg"
                 />
-                <h1 className="font-semibold hidden lg:block">Harsh</h1>
+                <h1 className="font-semibold hidden lg:block">{auth.user?.fullName.substring(0,auth.user?.fullName.indexOf(' '))}</h1>
               </Button>
             ) : (
-              <Button variant="contained">Login</Button>
+              <Button onClick={()=>navigate("/login")} variant="contained">Login</Button>
             )}
 
-            <IconButton>
+            <IconButton onClick={()=>navigate("/wishList")}>
               <FavoriteBorder sx={{ fontSize: 29 }} />
             </IconButton>
 

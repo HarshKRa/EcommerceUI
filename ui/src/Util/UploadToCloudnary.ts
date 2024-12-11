@@ -1,6 +1,6 @@
 export const uploadToCloudnary = async(pics:any) =>{
     const cloud_name="harshrajkumar"
-    const upload_preset="ecom_preset"
+    const upload_preset="ml_default"
 
     if(pics){
         const data = new FormData();
@@ -8,17 +8,18 @@ export const uploadToCloudnary = async(pics:any) =>{
         data.append("upload_preset",upload_preset);
         data.append("cloud_name",cloud_name);
 
-        const res = await fetch("https://api.cloudinary.com/v1_1/harshrajkumar/image/upload",{
+        const res = await fetch("https://api.cloudinary.com/v1_1/harshrajkumar/upload",{
             method:"POST",
             body:data
         })
 
         const fileData = await res.json();
 
-        return fileData.url;
+        console.log("fileData : ", fileData)
+
+        return fileData.url; 
     }
     else{
-        console.log("error : pics not found");
-        
+        console.log("error : pics not found");  
     }
 }

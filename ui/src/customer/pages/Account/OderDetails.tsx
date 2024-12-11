@@ -1,29 +1,40 @@
 import { Box, Button, Divider } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import OderSteppers from "./OderSteppers";
 import { Payments } from "@mui/icons-material";
 import Oders from "./Oders";
+import { useAppDispatch, useAppSelctoer } from "../../../State/Store";
+import { fetchOrderById, fetchOrderItemById } from "../../../State/customer/OrderSlice";
+import Product from "../Product/Product";
 
 const OderDetails = () => {
   const nevigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const {orderId,orderItemId} = useParams();
+  const {order} = useAppSelctoer((store)=>store)
+
+  useEffect(()=>{
+       dispatch(fetchOrderById({orderId:Number(orderId),jwt:localStorage.getItem("jwt") || ""}));
+       dispatch(fetchOrderItemById({orderItemId:Number(orderItemId),jwt:localStorage.getItem("jwt") || ""}))
+  },[])
+
+  console.log(order);
   return (
     <Box>
       <section className="flex flex-col items-center justify-center">
         <img
           className="w-[30%]"
-          src="https://images.unsplash.com/photo-1585076641399-5c06d1b3365f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={order.orderItem?.product.image[0]}
           alt=""
         />
         <div className="text-sm space-y-1 text-center">
-          <h1 className="font-bold">Ram Clothing</h1>
+          <h1 className="font-bold">{order.orderItem?.product.seller?.businessDetails.businessName}</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-            reiciendis sapiente perferendis eos, non quisquam porro delectus
-            aspernatur minima voluptas?
+            {order.orderItem?.product.title}
           </p>
           <p>
-            <strong>Size : </strong>M
+            <strong>Size : </strong>{order.orderItem?.product.size}
           </p>
         </div>
         <div>
@@ -42,12 +53,12 @@ const OderDetails = () => {
           <h1 className="font-bold pb-3">Delivery Address</h1>
           <div className="text-sm space-y-2">
             <div className="flex gap-5 font-medium">
-              <p>{"Zosh"}</p>
+              <p>{order.currentOrder?.address?.name}</p>
               <Divider flexItem orientation="vertical" />
-              <p>{987654321}</p>
+              <p>{order.currentOrder?.address?.mobile}</p>
             </div>
 
-            <p>Lorem ipsum dolor sit amet, Bihar - 130012</p>
+            <p>{order.currentOrder?.address?.address},{order.currentOrder?.address?.city} {order.currentOrder?.address?.pinCode}</p>
           </div>
         </div>
 
@@ -58,7 +69,7 @@ const OderDetails = () => {
                     <p className="text-green-500 font-medium text-xs">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate, ducimus.</p>
                 </div>
 
-                <p className="font-medium">₹100.00</p>
+                <p className="font-medium">₹{order.orderItem?.sellingPrice}</p>
             </div>
 
             <div className="px-5">
@@ -73,13 +84,12 @@ const OderDetails = () => {
             <div className="px-5 pb-5">
                 <p className="text-sm">
                     <strong>Sold by : </strong>
-                    {"Harhas Cloths"}
+                    {order.orderItem?.product.seller?.businessDetails.businessName}
                 </p>
             </div>
 
             <div className="p-10">
                 <Button
-                disabled={true}
                 color='error'
                 sx={{py:"0.7rem"}}
                 className=""

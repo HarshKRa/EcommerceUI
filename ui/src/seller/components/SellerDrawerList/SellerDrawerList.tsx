@@ -51,7 +51,7 @@ const menu2 = [
     },
     {
         name: "Logout",
-        path: "/seller/logout",
+        path: "/",
         icon: <Logout className="text-primary-color" />,
         activeIcon: <Logout className="text-white" />,
       },

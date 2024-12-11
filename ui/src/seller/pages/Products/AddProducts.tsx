@@ -16,10 +16,14 @@ import React, { useState } from "react";
 import { uploadToCloudnary } from "../../../Util/UploadToCloudnary";
 import { color } from "../../../Data/filter/colors";
 import { mainCategories } from "../../../Data/category/mainCategory";
+import { useAppDispatch } from "../../../State/Store";
+import { createProduct } from "../../../State/seller/SellerProductSlice";
 
 const AddProducts = () => {
   const [uploadImage, setUploadImage] = useState(false);
   const [snakbarOpen, setOpenSnackbar] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -28,26 +32,24 @@ const AddProducts = () => {
       mrpPrice: "",
       sellingPrice: "",
       quantity: "",
-      color: "",
+      colour: "",
       images: [],
       category: "",
       category2: "",
       category3: "",
       sizes: "",
     },
-    validationSchema: {},
-    onSubmit: (value) => {
-      console.log(value);
+    // validationSchema: {},
+    onSubmit: (values) => {
+      console.log(values);
+      dispatch(createProduct({request:values,jwt:localStorage.getItem("jwt")}))
     },
   });
 
   const handleImageChange = async (event: any) => {
     const file = event.target.files[0];
     setUploadImage(true);
-    console.log("image changed");
-
-    const image = uploadToCloudnary(file);
-
+    const image = await uploadToCloudnary(file);
     formik.setFieldValue("images", [...formik.values.images, image]);
     setUploadImage(false);
   };
@@ -79,7 +81,8 @@ const AddProducts = () => {
                 <AddPhotoAlternate className="text-gray-700" />
               </span>
               {uploadImage && (
-                <div className="absolute left-0 right-0 top-0 bottom-0 w-24 h-24 flex justify-center items-center">
+                <div className="absolute left-0 right-0 top-0 bottom-0 w-24 h-24 flex 
+                justify-center items-center">
                   <CircularProgress />
                 </div>
               )}
@@ -106,9 +109,10 @@ const AddProducts = () => {
                       right: 0,
                       outline: "none",
                     }}
-                  />
+                  >
 
                   <Close sx={{ fontSize: "1rem" }} />
+                  </IconButton>
                 </div>
               ))}
             </div>
@@ -184,7 +188,7 @@ const AddProducts = () => {
           <Grid2 size={{ xs: 12, md: 4, lg: 3 }}>
             <FormControl
               fullWidth
-              error={formik.touched.color && Boolean(formik.errors.color)}
+              error={formik.touched.colour && Boolean(formik.errors.colour)}
               required
             >
               <InputLabel id="color-label">Color</InputLabel>
@@ -214,8 +218,8 @@ const AddProducts = () => {
                 ))}
               </Select>
 
-              {formik.touched.color && Boolean(formik.errors.color) && (
-                <FormHelperText>{formik.errors.color}</FormHelperText>
+              {formik.touched.colour && Boolean(formik.errors.colour) && (
+                <FormHelperText>{formik.errors.colour}</FormHelperText>
               )}
             </FormControl>
           </Grid2>
@@ -251,8 +255,8 @@ const AddProducts = () => {
                 ))}
               </Select>
 
-              {formik.touched.color && Boolean(formik.errors.color) && (
-                <FormHelperText>{formik.errors.color}</FormHelperText>
+              {formik.touched.sizes && Boolean(formik.errors.sizes) && (
+                <FormHelperText>{formik.errors.sizes}</FormHelperText>
               )}
             </FormControl>
           </Grid2>
@@ -283,8 +287,8 @@ const AddProducts = () => {
                 ))}
               </Select>
 
-              {formik.touched.color && Boolean(formik.errors.color) && (
-                <FormHelperText>{formik.errors.color}</FormHelperText>
+              {formik.touched.category && Boolean(formik.errors.category) && (
+                <FormHelperText>{formik.errors.category}</FormHelperText>
               )}
             </FormControl>
           </Grid2>
@@ -317,8 +321,8 @@ const AddProducts = () => {
                 ))}
               </Select>
 
-              {formik.touched.color && Boolean(formik.errors.color) && (
-                <FormHelperText>{formik.errors.color}</FormHelperText>
+              {formik.touched.category2 && Boolean(formik.errors.category2) && (
+                <FormHelperText>{formik.errors.category2}</FormHelperText>
               )}
             </FormControl>
           </Grid2>
@@ -330,7 +334,7 @@ const AddProducts = () => {
               error={formik.touched.category && Boolean(formik.errors.category)}
               required
             >
-              <InputLabel id="category3-label">Category</InputLabel>
+              <InputLabel id="category3-label">Category3</InputLabel>
               <Select
                 labelId="category3-label"
                 id="category3"
@@ -350,8 +354,8 @@ const AddProducts = () => {
                 ))}
               </Select>
 
-              {formik.touched.color && Boolean(formik.errors.color) && (
-                <FormHelperText>{formik.errors.color}</FormHelperText>
+              {formik.touched.category3 && Boolean(formik.errors.category3) && (
+                <FormHelperText>{formik.errors.category3}</FormHelperText>
               )}
             </FormControl>
           </Grid2>

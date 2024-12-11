@@ -2,10 +2,13 @@ import { ElectricBolt } from '@mui/icons-material'
 import { Avatar } from '@mui/material'
 import { teal } from '@mui/material/colors'
 import React from 'react'
+import { Order, OrderItem } from '../../../Types/OrderType'
+import { useNavigate } from 'react-router-dom'
 
-const OderItem = () => {
+const OderItemCard = ({item,order}:{item:OrderItem,order:Order}) => {
+  const navigate = useNavigate();
   return (
-    <div className='text-sm bg-white p-5 space-y-4 border rounded-md cursor-pointer'>
+    <div onClick={()=>navigate(`${order.id}/${item.id}`)} className='text-sm bg-white p-5 space-y-4 border rounded-md cursor-pointer'>
       <div className="flex items-center gap-5">
         <div>
           <Avatar sizes='small' sx={{bgcolor:teal[500]}}>
@@ -15,9 +18,10 @@ const OderItem = () => {
 
         <div>
           <h1 className="font-bold text-primary-color">
-            PENDING
+            {}
           </h1>
-          <p>Arriving by Mon, 15 Jul</p>
+          <p>Arriving by</p>
+          <p>{order.deliverDate}</p>
         </div>
       </div>
 
@@ -25,12 +29,12 @@ const OderItem = () => {
 <div>
   <img
   className='w-[70px]'
-   src="https://images.unsplash.com/photo-1585076641399-5c06d1b3365f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+   src={item.product.image[0]} alt="" />
   </div>
 
   <div className='w-full space-y-2'>
-    <h1 className='font-bold'>Virani Clothing</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil voluptatibus itaque molestiae tempora at? Itaque facilis corrupti earum nulla ipsa.</p>
+    <h1 className='font-bold'>{item.product.seller?.businessDetails.businessName}</h1>
+    <p>{item.product.title}</p>
     <p>
       <strong>Size : </strong>
       FREE
@@ -41,4 +45,4 @@ const OderItem = () => {
   )
 }
 
-export default OderItem
+export default OderItemCard

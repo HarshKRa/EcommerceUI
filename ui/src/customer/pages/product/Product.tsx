@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterSection from "./FilterSection";
 import ProductCard from "./ProductCard";
 import {
@@ -14,13 +14,21 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { DevicesFoldRounded, FilterAlt } from "@mui/icons-material";
+import store, { useAppDispatch, useAppSelctoer } from "../../../State/Store";
+import { fetchAllProducts } from "../../../State/customer/ProductSlice";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const Product = () => {
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
-
   const [sort, setSort] = useState();
   const [page, setPage] = useState(1);
+  
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams(); 
+  const {category} = useParams();
+
+  const {product} = useAppSelctoer((store=>store));
 
   const handleSortChange = (event: any) => {
     setSort(event.target.value);
@@ -29,8 +37,29 @@ const Product = () => {
   const handlePageChange = (value: number) => {
     setPage(value);
   };
+
+  console.log("serach params ", searchParams.get("price"))
+
+  useEffect(()=>{
+    const [minPrice,maxPrice] = searchParams.get("price")?.split("-") || [];
+    const color = searchParams.get("color");
+    const category = searchParams.get("category");
+    const minDiscount = searchParams.get("discount")?Number(searchParams.get("discount")):undefined;
+    const pageNumber = page - 1;
+
+    const newFilter = {
+      color : color || "",
+      minPrice : minPrice?Number(minPrice):undefined,
+      maxPrice : maxPrice?Number(maxPrice):undefined,
+      minDiscount,
+      pageNumber
+    }
+
+
+    dispatch(fetchAllProducts(newFilter));
+  },[category,searchParams])
   return (
-    <div className="-z-10 mt-10 relative">
+    <div className="-z-10 mt-10">
       <div>
         <h1
           className="text-3xl text-center font-bold text-gray-700 pb-10 px-9
@@ -76,8 +105,8 @@ const Product = () => {
 
             <Divider />
             <section className="product_section grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-5  justify-center">
-              {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item) => (
-                <ProductCard />
+              {product?.products?.map((item) => (
+                <ProductCard item = {item} />
               ))}
             </section>
             <div className="flex justify-center py-10">

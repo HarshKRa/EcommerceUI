@@ -6,6 +6,7 @@ import PersonalDetails from "./PersonalDetails";
 import Address from "./Address";
 import BankDetails from "./BankDetails";
 import BussinessDetails from "./BussinessDetails";
+import { useAppSelctoer } from "../../../State/Store";
 
 const style = {
   position: "absolute",
@@ -20,6 +21,7 @@ const style = {
 
 const Profile = () => {
   const [open, setOpen] = React.useState(false);
+  const { seller } = useAppSelctoer((store) => store);
   const handleOpen = (formName: string) => {
     setOpen(true);
     SetSelectedForm(formName);
@@ -66,14 +68,14 @@ const Profile = () => {
           />
 
           <div>
-            <ProfileFiledCard keys={"Seller Name"} value={"Raam Verani"} />
+            <ProfileFiledCard keys={"Seller Name"} value={seller.profile?.sellerName} />
             <Divider />
             <ProfileFiledCard
               keys={"Seller Email"}
-              value={"Raamverani@gmail.com"}
+              value={seller.profile?.email}
             />
             <Divider />
-            <ProfileFiledCard keys={"Seller Mobile"} value={"1234567890"} />
+            <ProfileFiledCard keys={"Seller Mobile"} value={seller.profile?.mobile} />
           </div>
         </div>
       </div>
@@ -100,12 +102,13 @@ const Profile = () => {
           <div>
             <ProfileFiledCard
               keys={"Business Name/Brand Name"}
-              value={"Verani Clothing"}
+              value={seller.profile?.businessDetails?.businessName
+              }
             />
             <Divider />
-            <ProfileFiledCard keys={"GSTIN"} value={"GST1234566"} />
+            <ProfileFiledCard keys={"GSTIN"} value={seller.profile?.gstin} />
             <Divider />
-            <ProfileFiledCard keys={"Account Status"} value={"PENDING"} />
+            <ProfileFiledCard keys={"Account Status"} value={seller.profile?.accountStatus} />
           </div>
         </div>
       </div>
@@ -130,14 +133,14 @@ const Profile = () => {
           <div>
             <ProfileFiledCard
               keys={"Adress"}
-              value={"Behind teliphone exchange, Bihar"}
+              value={seller.profile?.pickUpAddress.address}
             />
             <Divider />
-            <ProfileFiledCard keys={"City"} value={"Bihar Sharif"} />
+            <ProfileFiledCard keys={"City"} value={seller.profile?.pickUpAddress.city} />
             <Divider />
-            <ProfileFiledCard keys={"State"} value={"Bihar"} />
+            <ProfileFiledCard keys={"State"} value={seller.profile?.pickUpAddress.state} />
             <Divider />
-            <ProfileFiledCard keys={"Mobile"} value={"1234567890"} />
+            <ProfileFiledCard keys={"Mobile"} value={seller.profile?.pickUpAddress.mobile} />
           </div>
         </div>
       </div>
@@ -162,12 +165,12 @@ const Profile = () => {
           <div>
             <ProfileFiledCard
               keys={"Account Holder Name"}
-              value={"Harsh Raj Kumar"}
+              value={seller.profile?.bankDetails.accountHolderName}
             />
             <Divider />
-            <ProfileFiledCard keys={"Account Number"} value={"8941234566"} />
+            <ProfileFiledCard keys={"Account Number"} value={seller.profile?.bankDetails.accountNumber} />
             <Divider />
-            <ProfileFiledCard keys={"IFSC CODE"} value={"PUNBO12034"} />
+            <ProfileFiledCard keys={"IFSC CODE"} value={seller.profile?.bankDetails.ifscCode} />
           </div>
         </div>
       </div>

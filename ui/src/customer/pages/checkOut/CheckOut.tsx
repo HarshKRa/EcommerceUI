@@ -37,17 +37,14 @@ function CheckOut() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [paymentGetWay, setPaymentGetWay] = React.useState("RAZORPAY");
-
-  console.log(paymentGetWay);
+  const [paymentGateway, setpaymentGateway] = React.useState("RAZORPAY");
   
-
   const handlePaymentChange =(event:any)=>{
-    setPaymentGetWay(event.target.value)
+    setpaymentGateway(event.target.value)
   }
   return (
     <>
-      <div className="pt-10 px-5 sm:px-10 md:px-44 lg:px-60 min-h-screen relative -z-10">
+      <div className="pt-10 px-5 sm:px-10 md:px-44 lg:px-60 min-h-screen -z-10">
         <div className="spac-y-5 lg:space-y-0 lg:grid grid-cols-3 lg:gap-9">
           <div className="col-span-2 space-y-5">
             <div className="flex justify-between items-center">
@@ -79,7 +76,7 @@ function CheckOut() {
                   name="radio-buttons-group"
                   className="flex justify-between pr-0"
                   onChange={handlePaymentChange}
-                  value={paymentGetWay}
+                  value={paymentGateway}
                 >
                   {paymentGatwayList.map((item) => (
                     <FormControlLabel
@@ -119,7 +116,7 @@ function CheckOut() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddressFrom />
+          <AddressFrom paymentGateway={paymentGateway}/>
         </Box>
       </Modal>
     </>

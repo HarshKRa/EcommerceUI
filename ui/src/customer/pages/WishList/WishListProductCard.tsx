@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import './productCards.css'
-import { Button } from '@mui/material';
-import { Favorite, ModeComment } from '@mui/icons-material';
-import { teal } from '@mui/material/colors';
 import { Product } from '../../../Types/ProductType';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { Close, Favorite, ModeComment } from '@mui/icons-material';
+import { teal } from '@mui/material/colors';
 import { useAppDispatch } from '../../../State/Store';
 import { addProductToWishlist } from '../../../State/customer/WishlistSlice';
 
-const ProductCard = ({item}:{item:Product}) => {
+const WishListProductCard = ({item}:{item:Product}) => {
 
     const[currentImg, setCurrentImg] = useState(0);
     const[isHoverd, setIsHoverd] = useState(false);
     const dispatch = useAppDispatch();
-
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -41,7 +39,7 @@ const ProductCard = ({item}:{item:Product}) => {
 
   return (
     <>
-      <div onClick={()=>navigate(`/product-details/${item.category?.categoryId}/${item.title}/${item.id }`)} className='group px-4 relative'>
+      <div onClick={()=>navigate(`/product-details/${item.category?.categoryId}/${item.title}/${item.id }`)} className='group relative'>
         <div className="card"
         onMouseLeave={()=>setIsHoverd(false)}
         
@@ -54,20 +52,6 @@ const ProductCard = ({item}:{item:Product}) => {
              style={{transform:`translateX(${(index-currentImg)*100}%)`}}
              />
             )}
-
-            {isHoverd && 
-                <div className='indicator flex flex-col items-center space-y-2'>
-                    <div className='flex gap-3'>
-                        <Button onClick={handleWishlist} variant='contained' color='secondary'>
-                            <Favorite sx={{color:teal[500]}}/>
-                        </Button>
-
-                        <Button variant='contained' color='secondary'>
-                            <ModeComment sx={{color:teal[500]}}/>
-                        </Button>
-                    </div>
-                </div>
-            }
         </div>
 
         <div className='details pt-3 space-y-1 group-hover-effect rounded-md'>
@@ -82,9 +66,14 @@ const ProductCard = ({item}:{item:Product}) => {
                     <span className='text-primary-color font-semibold'>{item.discountPercentage}%</span>
                 </div>
         </div>
+        <div className="absolute top-1 right-5">
+            <button onClick={handleWishlist}>
+                <Close className='cursor-pointer hover:bg-white rounded-full p-1' sx={{color:teal[500], fontSize:"2rem"}} />
+            </button>
+        </div>
       </div>
     </>
   )
 }
 
-export default ProductCard
+export default WishListProductCard

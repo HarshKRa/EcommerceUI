@@ -45,8 +45,8 @@ const CategorySheet = ({selctedCategory,setShowSheet}:any) => {
             </p>
             <ul className="space-y-3">
               {childCategory(categoryThree[selctedCategory], item.categoryId).map(
-                (item: any) => (
-                  <div>
+                (item: any,index:number) => (
+                  <div key={index}>
                     <li onClick={()=>navigate("/products/"+item.categoryId)} className="hover:text-primary-color cursor-pointer">
                       {item.name}
                     </li>

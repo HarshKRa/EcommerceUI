@@ -1,14 +1,12 @@
-import { Button, TextField } from "@mui/material";
-import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useAppDispatch } from "../../../State/Store";
-import { sendLoginSignupOtp, signing } from "../../../State/AuthSlice";
-import { sellerLogin } from "../../../State/seller/SellerAuthSlice";
+import { useAppDispatch, useAppSelctoer } from "../../../State/Store";
+import { useFormik } from "formik";
+import { Button, CircularProgress, TextField } from "@mui/material";
+import { fetchUserProfile, sendLoginSignupOtp, signing } from "../../../State/AuthSlice";
 
-const SellerLoginForm = () => {
+const LoginForm = () => {
   const dispatch = useAppDispatch();
-  const [sentOpt, setSendOtp] = useState(false);
+  const { auth } = useAppSelctoer((store) => store);
 
   const formik = useFormik({
     initialValues: {
@@ -16,23 +14,18 @@ const SellerLoginForm = () => {
       otp: "",
     },
     onSubmit: (values) => {
-      dispatch(sellerLogin(values));
+         dispatch(signing(values));
     },
   });
 
   const handleSentOtpFunction = () => {
     dispatch(sendLoginSignupOtp({ email: formik.values.email }));
-    setSendOtp(true);
   };
-
-  // const handleLogin = ()=>{
-  //   dispatch(signin({email}))
-  // }
 
   return (
     <div>
-      <h1 className="text-center font-bold text-xl text-primary-color pb-5">
-        Login As Seller
+      <h1 className="text-center font-bold text-xl text-primary-color pb-8">
+        Login
       </h1>
       <div className="space-y-5">
         <TextField
@@ -45,7 +38,7 @@ const SellerLoginForm = () => {
           helperText={formik.touched.email && formik.errors.email}
         />
 
-        {sentOpt ? (
+        {auth.otpSent && (
           <div className="space-y-2">
             <p className="font-medium text-sm opacity-60">
               Enter OTP sent to your email
@@ -60,20 +53,9 @@ const SellerLoginForm = () => {
               helperText={formik.touched.otp && formik.errors.otp}
             />
           </div>
-        ) : (
-          <div>
-            <Button
-              onClick={handleSentOtpFunction}
-              fullWidth
-              variant="contained"
-              sx={{ py: "11px" }}
-            >
-              SENT OTP
-            </Button>
-          </div>
         )}
 
-        <div className={!sentOpt ? "invisible" : ""}>
+        {auth.otpSent ? (
           <Button
             onClick={() => formik.handleSubmit()}
             fullWidth
@@ -82,10 +64,14 @@ const SellerLoginForm = () => {
           >
             Login
           </Button>
-        </div>
+        ) : (
+          <Button onClick={handleSentOtpFunction} fullWidth variant="contained" sx={{ py: "11px" }}>
+            {auth.loading ? <CircularProgress /> : "send otp"}
+          </Button>
+        )}
       </div>
     </div>
   );
 };
 
-export default SellerLoginForm;
+export default LoginForm;

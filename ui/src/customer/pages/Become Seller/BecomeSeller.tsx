@@ -10,7 +10,7 @@ const BecomeSeller = () => {
     setIsLogin(!isLogin);
   };
   return (
-    <div className="grid md:gap-10 grid-cols-3 min-h-3 relative -z-10">
+    <div className="grid md:gap-10 grid-cols-3 min-h-3 -z-10">
       <section className="lg:col-span-1 md:col-span-2 col-span-3 p-10 shadow-lg rounded-b-md">
         {!isLogin ? <SellerAccountForm /> : <SellerLoginForm />}
 
